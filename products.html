@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Inventory Management System</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+			crossorigin="anonymous">
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<h1> List Products</h1>
+			</div>
+			<div class="row">
+				<div class ="col-lg-3">
+					<a th:href="@{/products/new}" class="btn btn-primary">Add Product</a>
+				</div>
+			</div>
+			<table class="table table-striped">
+				<thead class="table-dark">
+					<tr>
+						<th> Product Id</th>
+						<th> Product Name</th>
+						<th> Price</th>
+						<th> Available Quantity</th>
+						<th> Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each = "product: ${products}">
+						<td th:text="${product.id}">
+						<td th:text="${product.name}">
+						<td th:text="${product.price}">
+						<td th:text="${product.quantity}">
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
