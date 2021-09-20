@@ -6,22 +6,30 @@
 			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
 			crossorigin="anonymous">
 	</head>
-	<body>
-		<div class="container">
-			<div class="row">
+	<body style="background-image: url('IMS.png');">
+	<nav class="navbar navbar-dark" style="background-color:DarkSlateBlue;">
+		<h3 style="color:white;">Inventory Management System</h3>
+	</nav>
+	
+		<div class="container card p-3 mt-3 border-primary" style="opacity: 0.95;">
+			<div class="row m-1">
 				<h1> List Products</h1>
 			</div>
-			<div class="row">
-				<div class ="col-lg-3">
-					<a th:href="@{/products/new}" class="btn btn-primary">Add Product</a>
-				</div>
+			<!-- use this if add product button is not working
+			<div>
+				<a th:href="@{/products/new}" class="btn btn-primary">Add Product</a>
 			</div>
-			<table class="table table-striped">
-				<thead class="table-dark">
+			-->
+			<div>
+				<button th:href="@{/products/new}" class="btn btn-primary btn-lg mt-1 mb-1">Add Product</button>
+			</div>
+			
+			<table class="table table-striped mt-1 text-center table-bordered">
+				<thead class="table-dark" style="background-color:RebeccaPurple">
 					<tr>
 						<th> Product Id</th>
 						<th> Product Name</th>
-						<th> Price</th>
+						<th> Price in Rs.</th>
 						<th> Available Quantity</th>
 						<th> Actions</th>
 					</tr>
@@ -32,7 +40,29 @@
 						<td th:text="${product.name}">
 						<td th:text="${product.price}">
 						<td th:text="${product.quantity}">
+						<td>
+							<!-- use this if button tag not work
+							<a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary">Update</a>
+							<a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary">Delete</a>
+							-->
+							<button th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary" style="background-color:DarkOrange;">Update</button>
+							<button th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary" style="background-color:Red;">Delete</button>
+							
+						</td>
 					</tr>
+					<!-- Sample testing row
+					<tr>
+						<td>1</td>
+						<td>Pencil</td>
+						<td>10</td>
+						<td>20</td>
+						<td>
+						<button th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary" style="background-color:DarkOrange;">Update</button>
+							<button th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary" style="background-color:Red;">Delete</button>
+							
+						</td>
+					</tr>
+					-->
 				</tbody>
 			</table>
 		</div>
