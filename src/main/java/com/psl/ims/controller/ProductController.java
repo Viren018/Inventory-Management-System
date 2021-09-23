@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.psl.ims.entity.Product;
 import com.psl.ims.service.ProductService;
@@ -26,6 +27,7 @@ public class ProductController {
 	public String listProducts(Model model )
 	{
 		model.addAttribute("products", productService.getAllProducts());
+	
 		return "products";
 	}
 	
@@ -77,4 +79,20 @@ public class ProductController {
 		productService.deleteStudentById(id);
 		return "redirect:/products";
 	}
+	
+	//to check total product quantity
+	
+	
+	
+	
+	
+	 @GetMapping("products/search/{id}")
+	 public String searchedProduct(@PathVariable("id")
+	  Long id,Model model) 
+	 { 
+		 Product
+	  searchedProduct=productService.getProductById(id);
+	  model.addAttribute("product", searchedProduct);
+	  return "search"; }
+	 
 }

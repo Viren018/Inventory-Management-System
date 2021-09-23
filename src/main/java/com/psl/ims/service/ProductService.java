@@ -15,4 +15,6 @@ public interface ProductService {
 	 Product updateProduct(Product product);
 	 
 	 void deleteStudentById(Long id);
+	 
+	 public int countTotalQuantity();
 }
