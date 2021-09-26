@@ -1,5 +1,4 @@
 package com.psl.ims.service.impl;
-
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -30,6 +29,26 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return productRepository.save(product);
 	}
+	
+	@Override
+	public Product getProductById(Long id) {
+		// TODO Auto-generated method stub
+		return productRepository.findOne(id) ;
+	}
+
+	@Override
+	public Product updateProduct(Product product) {
+
+		return productRepository.save(product);
+	}
+
+	@Override
+	public void deleteProductById(Long id) {
+		// TODO Auto-generated method stub
+		productRepository.delete(id);
+	}
+
+	
 	
 	
 }

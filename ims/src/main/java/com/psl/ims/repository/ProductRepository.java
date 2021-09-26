@@ -8,4 +8,5 @@ import com.psl.ims.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Long>
 {
 
+
 }

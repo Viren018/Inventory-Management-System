@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.psl.ims.entity.Product;
@@ -11,22 +12,23 @@ import com.psl.ims.service.ProductService;
 
 @Controller
 public class ProductController {
+
 	private ProductService productService;
 
 	public ProductController(ProductService productService) {
 		super();
 		this.productService = productService;
 	}
-	
+
 	//handler method to handle list student and return model and view
-	
+
 	@GetMapping("/products")
 	public String listProducts(Model model )
 	{
 		model.addAttribute("products", productService.getAllProducts());
 		return "products";
 	}
-	
+
 	@GetMapping("/products/new")
 	public String addProductForm(Model model )
 	{
@@ -35,11 +37,49 @@ public class ProductController {
 		model.addAttribute("product", product);
 		return "add_product";
 	}
-	
+
 	@PostMapping("/products")
 	public String saveProduct(@ModelAttribute("product") Product product)
 	{
 		productService.saveProduct(product);
 		return "redirect:/products";
 	}
+
+	@GetMapping("/products/edit/{id}")
+	public String editStudentForm(@PathVariable Long id, Model model) {
+		model.addAttribute("product", productService.getProductById(id));
+		return "edit_product";	
+	}
+
+	@PostMapping("/products/{id}")
+	public String updateProduct(@PathVariable Long id, 
+			@ModelAttribute("product") Product product,
+			Model model) {
+
+
+		//get product from database by id
+
+		Product existingProduct = productService.getProductById(id);
+		existingProduct.setProduct_code(product.getProduct_code());
+		existingProduct.setProduct_name(product.getProduct_name());
+		existingProduct.setProduct_price(product.getProduct_price());
+		existingProduct.setProduct_category(product.getProduct_category());
+		existingProduct.setQuantity(product.getQuantity());
+
+		//save updated product object
+
+     	productService.updateProduct(existingProduct);
+     	return "redirect:/products";	
+
+	}
+
+	@GetMapping("/products/{id}")
+	public String deleteStudent(@PathVariable Long id) {
+		productService.deleteProductById(id);
+		return "redirect:/products";
+	}
+//	@GetMapping("/productshomepage")
+//	public String homepage() {
+//		return "redirect:/products";
+//	}
 }

@@ -7,24 +7,70 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import groovy.transform.builder.Builder;
+
+@Builder
 @Entity
 @Table(name = "products")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	@Column(name="product_code", nullable=false)
+	private int product_code;
+	
+	public int getProduct_code() {
+		return product_code;
+	}
+
+	public void setProduct_code(int product_code) {
+		this.product_code = product_code;
+	}
+
 	@Column(name = "product_name", nullable = false)
 	private String product_name;
 	
 	@Column(name = "product_category", nullable = false)
 	private String product_category;
 	
+	@Column(name="product_price", nullable = false)
+	private int product_price;
 	
-	 public Product(long id, String product_name, String product_category) {
+	@Column(name="quantity", nullable = false)
+	private int quantity;
+	
+	
+	 public Product(long id, String product_name, String product_category, int string, int string2) {
 		super();
 		this.id = id;
 		this.product_name = product_name;
 		this.product_category = product_category;
+		this.product_price= string2;
+		this.quantity=string;
+	}
+
+	public Product(String product_name, int product_price, int quantity) {
+		super();
+		this.product_name = product_name;
+		this.product_price = product_price;
+		this.quantity = quantity;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public int getProduct_price() {
+		return product_price;
+	}
+
+	public void setProduct_price(int product_price) {
+		this.product_price = product_price;
 	}
 
 	public Product() {
