@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Inventory Management System</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+			crossorigin="anonymous">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+<style>
+/*  search css  */
+
+.search-container{
+position: relative;
+}	
+.search-result{
+position: absolute;
+background: white;
+width: 100%;
+padding: 10px;
+border: 1px solid gray;
+display: none;
+}	
+
+.quantity-result{
+border: 1px solid #dadada;
+border-radius: 7px;
+box-shadow: 0 0 10px #9ecaed;
+}
+
+</style>
+
+<script>
+	const search=()=>{
+	let query=$("#search-input").val();
+	
+	if(query=='')
+	{
+	$(".search-result").hide();
+	} else
+	{
+	
+	//sending request to server
+	
+	let url=`http://localhost:8080/search/${query}`;
+	
+	fetch(url).then(response=>{
+	return response.json();
+	}).then((data) => {
+	
+	
+	let text=`<div class='list-group'>`;
+	
+	data.forEach((product) => {
+	text += `<a href='/products/search/${product.id}' class='list-group-item list-group-item-action'> ${product.name} </a>`
+	});
+	
+	text +=`</div>`;
+	
+	$(".search-result").html(text);
+	});
+	
+	$(".search-result").show();
+	}
+};
+
+
+//quantity function
+
+const quantity=() => {
+//let quantityDiv= document.querySelector(".quantity-result");
+
+let url=`http://localhost:8080/quantity`;
+fetch(url).then(response=>{
+return response.json();
+}).then((quantityData) => {
+//quantityDiv.innerHTML = quantityData;
+alert("total stock left  " + quantityData);
+
+});
+
+};
+	
+	
+	</script>
+
+	</head>
+	<body>
+
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark" style="width: 100%;">
+  <!-- Brand -->
+  <a class="navbar-brand"  th:href="@{/products}">Inventory Management System</a>
+  
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <!--<div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/products}">Inventory Management System</a>
+      </li>
+    </ul>
+  </div>-->
+  <div class="search-container" style="position: absolute;right:140px; width:70%;">
+		<input onkeyup="search()" id="search-input" type="text" class="form-control" placeholder="Search Products">
+		<div class="search-result">
+					
+		</div>
+			
+	</div>
+  
+  <div style="position:absolute;right:20px;" class="form-inline my-2 my-lg-0" >
+      <a th:href="@{/logout}" class="btn btn-success" type="submit" >Logout</a>
+    </div>
+</nav>
+<br>
+		<div class="container">
+			<div class="row">
+				<h1 style="background-color: rgba(255,255,255,0.8);">Products List</h1>
+			</div>
+			
+			<div class="row">
+				<div class ="col-lg-3">
+					<a th:href="@{/products/new}" class="btn btn-primary">Add Product</a>
+				</div>
+				<br>
+				<br>
+			</div>
+			
+			<div>
+				<a class="btn btn-primary" style="color: white;" onclick="quantity()">Total Available Stock</a>
+				<span class="quantity-result"></span>
+			</div>
+			<br>
+			
+			<br>
+			<table class="table table-striped">
+				<thead class="table-dark">
+					<tr>
+						<th> Product Code</th>
+						<th> Product Name</th>
+						<th> Product Category</th>
+						<th> Price</th>
+						<th> Available Quantity</th>
+						<th> Actions</th>
+					</tr>
+				</thead>
+				<tbody style="background-color: rgba(255,255,255,0.8);">
+					<tr th:each = "product: ${products}">
+						<td th:text="${product.id}"></td>
+						<td th:text="${product.name}"></td>
+						<td th:text="${product.product_category}"></td>
+						<td th:text="${product.price}"></td>
+						<td th:text="${product.quantity}"></td>
+						<td>
+							<a th:href = "@{/products/edit/{id}(id=${product.id})}"
+							class="btn btn-primary">Update</a>
+
+							<a th:href = "@{/products/{id}(id=${product.id})}"
+							class="btn btn-danger">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br></br>
+		<br></br>
+	</body>
+	
+
+
+</html>
